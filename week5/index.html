@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INFO 450 - Week 4</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body 
+      { font-family: 'Droid Serif'; }
+
+      
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      i {
+          color: #0000FF;
+      }
+/* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+/* Two-column layout */
+      .left-column-half {
+        color: #777;
+        width: 50%;
+        height: 92%;
+        float: left;
+      }
+      .right-column-half {
+        width: 50%;
+        float: right;
+        padding-top: 1em;
+        line-height: .9em;
+      }
+
+      table {
+        width: 100%;
+        border: 2px solid black;
+        }
+        table, th, td {
+           border: 1px solid black;
+        }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source" class: center, middle >
+
+# INFO 450 Spring 2020
+
+---
+# Week 5 - Feb 13, 2020
+ 
+---
+# Homework Review
+
+---
+# Homework!
+
+Write a program that reads a set of 10 whole numbers from the user into an array.
+
+Once read in, it calculates the mean and the standard deviation of the numbers then displays the results to the console.
+
+1. Find the mean (the simple average of the numbers)
+2. Then, for each number, subtract the mean and square the result.
+3. Then, work out the mean of those squared differences.
+4. Take the square root of that, and we're done!
+
+```c++
+github/-your repo-/week4/program1.cpp
+```
+
+---
+
+# Homework 2!
+
+
+Write a program that inputs the names of the students in the class (to a max of 30 names)
+
+Store them in a 2-dimensional array
+
+Then outputs the class list to the console when the user enters an empty string (by pressing enter)
+
+
+---
+# String Common Library Function
+
+C++ supports a wide range of string manipulation functions
+
+cstring
+
+Commonly used ones:
+* strcpy() // copy a string from one to another
+* strcat() // concatenate one string to another
+* strlen() // get the length of a string
+* strcmp() // compare a string w/ another
+
+---
+# String - strcpy()
+<i>strcpy(to, from)</i>
+
+* Copies string 'from' into string 'to'
+* The 'to' string must be large enough to hold the copied string
+* Both strings must be null-terminated and the resulting string will be null terminated
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main(){
+  char s1[100] = "";
+  char s2[100] = "Joseph";
+  
+  strcpy(s1, s2);
+
+  cout << "s1: *" << s1 << "* and s2: *" << s2 << "*" << endl;
+  return 0;
+}
+
+
+```
+---
+# String - strcat()
+<i>strcat(to, from)</i>
+
+Append string 'from' to string 'to'
+
+The 'to' string must be large enough to hold the concatenated strings
+
+Both strings must be null-terminated and the resulting string will be null-terminated
+
+```c++
+
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main(){
+  char firstName[] = "Mickey";
+  char lastName[] = "Mouse";
+  char fullName[100] = "";
+  strcat(fullName, firstName);
+  strcat(fullName, " ");
+  strcat(fullName, lastName);
+
+  cout << "Full Name is: " << fullName << endl;
+  return 0;
+}
+
+
+```
+
+---
+# String - strcmp()
+<i>strcmp(s1, s2)</i>
+* The function returns 0 if they are equal.   1 if s1 > s2 and -1 if s1 < s2
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main() {
+  char password1[100] = "";
+  char password2[100] = "";
+
+  cout << "Enter password: ";
+  cin.getline(password1, 100);
+  cout << "Re-Enter password: ";
+  cin.getline(password2, 100);
+
+  while(strcmp(password1, password2)){
+    cout << "Entered passwords are not the same. Try again." << endl;
+    cout << "Enter password: ";
+    cin.getline(password1, 100);
+    cout << "Re-Enter password: ";
+    cin.getline(password2, 100);
+  }
+
+  cout << "Passwords are the same. Match succeeded." << endl;
+  return 0;
+}
+```
+
+---
+# String - strlen()
+<i>strlen(s1)</i>
+
+* Returns the length of s1, not including the null terminating character
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main()
+{
+  char password1[100] = "";
+  char password2[100] = "";
+    cout << "Passwords MUST be the same AND ";
+    cout << "password lengths must be at least 8 characters.";
+    cout << endl;
+  cout << "Please enter a password: ";
+  cin.getline(password1,100);
+  cout << "Please re-enter a password: ";
+  cin.getline(password2,100);
+
+  while (strcmp(password1, password2) || strlen(password1) < 8){
+    cout << "Passwords MUST be the same AND ";
+    cout << "password lengths must be at least 8 characters.";
+    cout << endl;
+    cout << "Please enter a password: ";
+    cin.getline(password1,100);
+    cout << "Please re-enter a password: ";
+    cin.getline(password2,100);
+  }
+  cout << "Password was successful." << endl;
+}
+
+```
+---
+# String functions in VS2015
+* Apparently, C++ in Visual Studio has deprecated some standard functions for security.
+* <i>#define _CRT_SECURE_NO_WARNINGS</i>
+* You can use the new string functions OR add preprocessor directives to the stdafx.h header file
+* When the pre-processor sees this directive, it ignores the deprecated functions
+
+```c++
+// stdafx.h include file for your awesome Visual Studio machines
+#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+#include "targetver.h"
+#include "stdio.h"
+#include "targetver.h"
+
+#include <stdio.h>
+#include <tchar.h>
+
+```
+---
+# Practice
+* Write a function that accepts a phrase (C string) and counts the number of letter (non-space) and returns that value.  
+  * <i>int letters_minus_whitespace(char[] value)</i>
+  * <a href="./inclass/practice1.cpp"> SOLUTION </a>
+
+* Write a function that accepts a phrase (C string) and counts the number of words in the phrase and returns that value, words are separated by a space or a tab.
+  * <i>int word_count(char[] value)</i>
+  * <a href="./inclass/practice2.cpp"> SOLUTION </a>
+
+* Write a function that accepts a phrase (C string) and reverses the content of the string.  
+  * <i>void reverse_string(char[] &value)</i>
+
+* Write a function that accepts a word and determines if it is a palindrome. 
+  * <i>bool is_palindrome(char[] value)</i>
+---
+
+---
+# Real Application - Phone Book
+
+* Arrays
+* Strings
+* Structs/Classes
+* Pointers
+* Sorting
+* File IO
+
+## all the fun things we've learned and more!
+---
+# Let's look at strcmp again
+
+* When would we 'compare' strings?
+
+* Let's start with a list of last names
+  * Wynn
+  * Smith
+  * Jones
+  * Beckett
+  * Wilson
+  * George
+
+How do we order them in a phone book?
+Greater than, less than?
+
+---
+# Phone book!
+
+* Let's start by looking at entries in a phone book.
+
+* First Name
+* Middle Initial
+* Last Name
+* Area Code
+* Phone Number
+* Print in Phone book?
+
+<i>Do people use phone books anymore?</i>
+---
+# struct
+
+<struct> is a structure that's a collection of variables referened by one name
+
+Call an aggregate data type (vs a scalar datatype, like an <i>int</i>)
+
+Before you can use a struct, you have to declare it, like a function.
+
+```c++
+
+struct phone_entry {
+  char first_name[255]; // First Name
+  char middle_initial; // Middle Initial
+  char last_name[255]; // Last Name
+  char area_code[3]; // Area Code
+  char phone_number[7]; // Phone Number
+  bool is_private; // Kept private? Not printed?
+};
+
+```
+
+# This is the declaration, not creating a variable yet.
+---
+# Memory of a struct
+
+When a variable is created of the type of the <i>struct</i> (phone_entry in our case) memory is allocated together.
+
+|variable|size|
+|---|---|
+|first_name|255|
+|middle_initial|1|
+|last_name|255|
+|area_code|4|
+|phone_number|8|
+|is_private|1|
+
+Total memory per variable == 522 bytes
+
+This is a fixed size per variable (super important later)
+
+<strong>??  Why is the area code 4??</strong>
+---
+```c++
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+struct phone_entry {
+  char first_name[255]; // First Name
+  char middle_initial; // Middle Initial
+  char last_name[255]; // Last Name
+  char area_code[4]; // Area Code
+  char phone_number[8]; // Phone Number
+  bool is_private; // Kept private? Not printed?
+};
+
+int main()
+{
+  phone_entry main_entry_item;
+  strcpy(main_entry_item.first_name, "Chris");
+  main_entry_item.middle_initial = ' ';
+  strcpy(main_entry_item.last_name, "Fauerbach");
+  strcpy(main_entry_item.area_code, "804");
+  strcpy(main_entry_item.phone_number, "5392443");
+  main_entry_item.is_private =  false;
+
+  if (!main_entry_item.is_private){
+    cout << main_entry_item.last_name << ", ";
+    cout << main_entry_item.first_name << " " << main_entry_item.middle_initial;
+    cout << " ...... " ;
+    cout << "(" << main_entry_item.area_code << ") " << main_entry_item.phone_number << endl;
+  }
+  // Something like that.
+  return 0;
+}
+
+
+```
+---
+# Passing structures to functions
+
+Call by value:
+
+```c++
+void my_function(phone_entry my_input_number)
+```
+
+<strong>What if it's a HUGE structure?</strong>
+
+---
+Remember by 'reference' with the <i>&</i> symbol.
+
+It's not only a way to pass a variable by reference, but it's a way to get a...
+<strong> REFERENCE </strong>
+to a variable.
+
+That reference can then be <strong> POINTED TO </strong> by a pointer.
+
+---
+
+```c++
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+struct phone_entry {
+  char first_name[255]; // First Name
+  char middle_initial; // Middle Initial
+  char last_name[255]; // Last Name
+  char area_code[4]; // Area Code
+  char phone_number[8]; // Phone Number
+  bool is_private; // Kept private? Not printed?
+};
+void print_entry(phone_entry *entry);
+int main()
+{
+  phone_entry main_entry_item;
+  strcpy(main_entry_item.first_name, "Chris");
+  main_entry_item.middle_initial = ' ';
+  strcpy(main_entry_item.last_name, "Fauerbach");
+  strcpy(main_entry_item.area_code, "804");
+  strcpy(main_entry_item.phone_number, "5392443");
+  main_entry_item.is_private =  false;
+  print_entry(&main_entry_item);
+  return 0;
+}
+void print_entry(phone_entry *entry){
+  if (!entry->is_private){
+    cout << entry->last_name << ", ";
+    cout << entry->first_name << " " << entry->middle_initial;
+    cout << " ...... " ;
+    cout << "(" << entry->area_code << ") " << entry->phone_number << endl;
+  }
+}
+
+```
+
+---
+# Classes
+
+<i>Classes</i> are define using the <i>class</i> keyword with the following syntax:
+
+```c++
+class class_name
+{
+  public:
+    ...
+
+  private:
+    ...
+
+  protected:
+    ...
+}
+
+```
+
+* Where <i>class_name</i> is a valid identifier for the class
+* The body of the declaration contains member variables, member functions and optionally access specifiers.
+
+---
+# Access Specifier
+
+* An <i>access specifier</i> is one of the following three keywords:
+  * private
+  * public
+  * protected
+* These specifiers modify the access rights for the members that follow them.
+
+---
+# Access Specifiers
+
+* <i>private</i> members of a class are accessible only from other members of the same class
+* <i>protected</i> members are accessible from other members of the same class or from their fiends, but also members of their derived classes.
+* <i>public</i> members are accessible from anywhere the object is visible
+
+* By default, all members of a class declared with the class keyword have private access for all of its members.  Therefore, any member that is declared before any other <i>access specifier</i> has private access automatically.  For example:
+
+```c++
+class myClass
+{
+   int dataElement;
+   char dataElement2[50];
+   public:
+     void classfunction1();
+
+}
+```
+---
+# Private and Public
+
+The <i>data</i> is hidden so it will be safe from accidental manipulation.  
+
+<i>Functions</i> that operate on the data are public so they can be accessed from outside the class.
+
+```c++
+class foo
+{
+  private:
+    int data;
+  public:
+    void setData(int incoming_data){
+      data = incoming_data;
+    }
+    int getData(){
+      return data;
+    }
+
+
+}
+```
+---
+# Phone Entry Class
+
+```c++
+class PhoneEntry
+{
+  private:
+    char first_name[255]; // First Name
+    char middle_initial; // Middle Initial
+    char last_name[255]; // Last Name
+    char area_code[4]; // Area Code
+    char phone_number[8]; // Phone Number
+    bool is_private; // Kept private? Not printed?
+
+  public:
+    void set_first_name(const char* in_name){ first_name = in_name;}
+    void set_middle_initial(char in_name){ middle_initial = in_name;}
+    void set_last_name(const char* in_name){ last_name = in_name;}
+    void set_area_code(const char* in_name){ area_code = in_name;}
+    void set_phone_number(const char* in_name){ phone_number = in_name;}
+    void set_is_private(bool in_p){ is_private = in_p;}
+
+    void printEntry(){
+    if (!is_private){
+       cout << last_name << ", ";
+       cout << first_name << " " << middle_initial;
+       cout << " ...... " ;
+       cout << "(" << area_code << ") " << phone_number << endl;
+   }      
+    }
+};
+
+```
+---
+# Using the class
+```c++
+int main()
+{
+  PhoneEntry entry;
+  entry.set_first_name("Chris");
+  entry.set_middle_initial(' ');
+  entry.set_last_name( "Fauerbach");
+  entry.set_area_code( "804");
+  entry.set_phone_number( "5392443");
+  entry.set_is_private(  false );
+  entry.printEntry();
+  return 0;
+}
+```
+---
+
+```c++
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+class PhoneEntry
+{
+  private:
+    char first_name[255]; // First Name
+    char middle_initial; // Middle Initial
+    char last_name[255]; // Last Name
+    char area_code[4]; // Area Code
+    char phone_number[8]; // Phone Number
+    bool is_private; // Kept private? Not printed?
+
+  public:
+    void set_first_name(const char* in_name){ strcpy(first_name, in_name);}
+    void set_middle_initial(char in_name){ middle_initial = in_name;}
+    void set_last_name(const char* in_name){ strcpy(last_name, in_name);}
+    void set_area_code(const char* in_name){ strcpy(area_code, in_name);}
+    void set_phone_number(const char* in_name){ strcpy(phone_number, in_name);}
+    void set_is_private(bool in_p){ is_private = in_p;}
+
+    void printEntry(){
+    if (!is_private){
+       cout << last_name << ", ";
+       cout << first_name << " " << middle_initial;
+       cout << " ...... " ;
+       cout << "(" << area_code << ") " << phone_number << endl;
+   }
+    }
+};
+
+
+int main()
+{
+  PhoneEntry entry;
+  entry.set_first_name("Chris");
+  entry.set_middle_initial(' ');
+  entry.set_last_name( "Fauerbach");
+  entry.set_area_code( "804");
+  entry.set_phone_number( "5392443");
+  entry.set_is_private(  false );
+  entry.printEntry();
+  return 0;
+}
+
+```
+---
+
+# Q & A Time
+
+* What's confusing?
+* What's next week?
+
+
+
+---
+# Next week - Test 1! 
+
+Complete review of everything through this chapter
+
+* main function (return type)
+* data types
+* variables (name, type, value)
+* control flow (if, while, do, for)
+* functions
+* function signatures (return type, name, parameter)
+* parameters, by value, by reference
+* input and output (cout, cin, get_s, readline)
+* arrays - size, length, type, name
+* strings
+* string functions (strcmp, strlen, strcat, strcpy)
+
+---
+
+---
+
+---
+
+---
+
+---
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

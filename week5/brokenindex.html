@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INFO 450 - Week 4</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body 
+      { font-family: 'Droid Serif'; }
+
+      
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      i {
+          color: #0000FF;
+      }
+/* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+/* Two-column layout */
+      .left-column-half {
+        color: #777;
+        width: 50%;
+        height: 92%;
+        float: left;
+      }
+      .right-column-half {
+        width: 50%;
+        float: right;
+        padding-top: 1em;
+        line-height: .9em;
+      }
+
+      table {
+        width: 100%;
+        border: 2px solid black;
+        }
+        table, th, td {
+           border: 1px solid black;
+        }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source" class: center, middle >
+
+# INFO 450 Spring 2019
+
+---
+# Week 5 - Feb 13, 2019
+ 
+---
+# Homework Review
+
+---
+# Homework!
+
+Write a program that reads a set of 10 whole numbers from the user into an array.
+
+Once read in, it calculates the mean and the standard deviation of the numbers then displays the results to the console.
+
+1. Find the mean (the simple average of the numbers)
+2. Then, for each number, subtract the mean and square the result.
+3. Then, work out the mean of those squared differences.
+4. Take the square root of that, and we're done!
+
+```c++
+github/-your repo-/week4/program1.cpp
+```
+
+---
+
+```c++
+#include <iostream>
+#include <cmath>
+using namespace std;
+const int MAX_NUMBERS = 10;
+
+int main(){
+  int x = 0, sum = 0;
+  float mean, std_dev, temp_float = 0;
+
+  int all_numbers[MAX_NUMBERS];
+  float each_numbers[MAX_NUMBERS];
+
+  for (x = 0;x < MAX_NUMBERS;x++){
+    cout << "Enter the number for index " << x << ": ";
+    cin >> all_numbers[x];
+  }
+  for (x = 0;x < MAX_NUMBERS;x++){
+    cout << "[" << all_numbers[x] << "] ";
+  }
+  for (x = 0;x < MAX_NUMBERS;x++){
+    sum += all_numbers[x];
+  }
+  mean = (float) sum / MAX_NUMBERS;
+  cout << endl << "Mean is: " << mean << endl;
+  for (x = 0;x < MAX_NUMBERS;x++){
+    std_dev += pow((float)all_numbers[x] - mean, 2);
+  }
+  std_dev = std_dev / MAX_NUMBERS;
+  std_dev = sqrt(std_dev);
+  cout << "The std deviation is: " << std_dev << endl;
+
+  return 0;
+
+}
+
+
+```
+---
+# Homework 2!
+
+
+Write a program that inputs the names of the students in the class (to a max of 30 names)
+
+Store them in a 2-dimensional array
+
+Then outputs the class list to the console when the user enters an empty string (by pressing enter)
+---
+
+```c++
+#include <stdio.h>
+using namespace std;
+
+const int MAX_STUDENTS = 30;
+const int MAX_SIZE = 255;
+int main(){
+  int x = 0;
+  int count  = 0;
+  char students[MAX_STUDENTS][MAX_SIZE];
+  for(x = 0;x < MAX_STUDENTS;x++){
+    strcpy(students[x], "");
+  }
+  for(x = 0;x < MAX_STUDENTS;x++){
+    cout << "Please enter student for index " << x << " :";
+    cin.getline(students[x], MAX_SIZE);
+    if (!strcmp("0", students[x]) ){
+      cout << "Got a 0, breaking." << endl;
+      break;
+    }
+    count++ ;
+  }
+  for(x = 0;x < count;x++){
+    cout << "students[" << x << "] = " << students[x] << endl;
+  }
+}
+```
+
+---
+
+
+
+
+
+--- 
+# Example - String input / output
+
+```c++
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  char str[100];
+  cout << "Please enter a string: " << endl;
+  cin >> str;
+  cout << "You entered: " << str << endl;
+  cout << "Please enter another string: " << endl;
+  cin >> str;
+  cout << "You entered: " << str << endl;
+
+  return 0;
+}
+ 
+
+```
+---
+# Uh oh, what happened?
+
+<img src="bad_input.png" width="100%"/>
+
+* Only "My" is displayed instead of "My name is chris"
+* This is because the extract operator >> considers space as a termination character.
+
+
+---
+# Strings - cin.getline()
+
+2 forms:
+```c++
+istream& getline (char* s, streamsize n);
+istream& getline (char* s, streamsize n, char delim);
+```
+
+* Extracts characters from the stream and stores them into <i>s</i> as a c-string, until either the extract character is the <i>delimiting character</i>, or <i>n</i> characters have been written to <i>s</i> (including the terminating null character.
+
+* The delimiting character is the newline character (\n) for the first form, and <i>delim</i> for the second: when found in the input sequence, it is extracted from the input sequence, but discarded and not written to s.
+
+* A <i>null character</i> '\0' is automatically appended to the written sequence if <i>n</i> is greater than zero, even if an empty string is extracted.
+
+---
+# Example 
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main()
+{
+  char str[100];
+  cout << "Please enter a string: " << endl;
+  cin.getline(str,100);
+  cout << "You entered: " << endl;
+
+  cout << "Please enter another string: " << endl;
+  cin.getline(str, 100);
+  cout << "You entered: " << str << endl;
+
+  return 0;
+}
+```
+---
+# Practice - String input / output
+
+* Write a program to input your name in the keyboard, save it to an array and then iterate through the array to count the number of characters of the inputted text.
+
+
+---
+
+```c++
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+int main(){
+  const int MAX = 255;
+  char line[MAX];
+  int count = 0;
+  int x = 0;
+  cout << "Please enter a line of text: " << endl;
+  cin.getline(line, MAX);
+
+  while (line[x] != 0){
+    count++;
+    x++;
+  }
+  cout << "There are " << count << " characters in your string of: " << line << endl;
+  return 0;
+}
+
+```
+
+---
+# String Common Library Function
+
+C++ supports a wide range of string manipulation functions
+
+cstring
+
+Commonly used ones:
+* strcpy() // copy a string from one to another
+* strcat() // concatenate one string to another
+* strlen() // get the length of a string
+* strcmp() // compare a string w/ another
+
+---
+# String - strcpy()
+<i>strcpy(to, from)</i>
+
+* Copies string 'from' into string 'to'
+* The 'to' string must be large enough to hold the copied string
+* Both strings must be null-terminated and the resulting string will be null terminated
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main(){
+  char s1[100] = "";
+  char s2[100] = "Joseph";
+  
+  strcpy(s1, s2);
+
+  cout << "s1: *" << s1 << "* and s2: *" << s2 << "*" << endl;
+  return 0;
+}
+
+
+```
+---
+# String - strcat()
+<i>strcat(to, from)</i>
+
+Append string 'from' to string 'to'
+
+The 'to' string must be large enough to hold the concatenated strings
+
+Both strings must be null-terminated and the resulting string will be null-terminated
+
+```c++
+
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main(){
+  char firstName[] = "Mickey";
+  char lastName[] = "Mouse";
+  char fullName[100] = "";
+  strcat(fullName, firstName);
+  strcat(fullName, " ");
+  strcat(fullName, lastName);
+
+  cout << "Full Name is: " << fullName << endl;
+  return 0;
+}
+
+
+```
+
+---
+# String - strcmp()
+<i>strcmp(s1, s2)</i>
+* The function returns 0 if they are equal.   1 if s1 > s2 and -1 if s1 < s2
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main() {
+  char password1[100] = "";
+  char password2[100] = "";
+
+  cout << "Enter password: ";
+  cin.getline(password1, 100);
+  cout << "Re-Enter password: ";
+  cin.getline(password2, 100);
+
+  while(strcmp(password1, password2)){
+    cout << "Entered passwords are not the same. Try again." << endl;
+    cout << "Enter password: ";
+    cin.getline(password1, 100);
+    cout << "Re-Enter password: ";
+    cin.getline(password2, 100);
+  }
+
+  cout << "Passwords are the same. Match succeeded." << endl;
+  return 0;
+}
+```
+
+---
+# String - strlen()
+<i>strlen(s1)</i>
+
+* Returns the length of s1, not including the null terminating character
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main()
+{
+  char password1[100] = "";
+  char password2[100] = "";
+    cout << "Passwords MUST be the same AND ";
+    cout << "password lengths must be at least 8 characters.";
+    cout << endl;
+  cout << "Please enter a password: ";
+  cin.getline(password1,100);
+  cout << "Please re-enter a password: ";
+  cin.getline(password2,100);
+
+  while (strcmp(password1, password2) || strlen(password1) < 8){
+    cout << "Passwords MUST be the same AND ";
+    cout << "password lengths must be at least 8 characters.";
+    cout << endl;
+    cout << "Please enter a password: ";
+    cin.getline(password1,100);
+    cout << "Please re-enter a password: ";
+    cin.getline(password2,100);
+  }
+  cout << "Password was successful." << endl;
+}
+
+```
+---
+# String functions in VS2015
+* Apparently, C++ in Visual Studio has deprecated some standard functions for security.
+* <i>#define _CRT_SECURE_NO_WARNINGS</i>
+* You can use the new string functions OR add preprocessor directives to the stdafx.h header file
+* When the pre-processor sees this directive, it ignores the deprecated functions
+
+```c++
+// stdafx.h include file for your awesome Visual Studio machines
+#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+#include "targetver.h"
+#include "stdio.h"
+#include "targetver.h"
+
+#include <stdio.h>
+#include <tchar.h>
+
+```
+---
+# Practice
+* Write a function that accepts a phrase (C string) and counts the number of letter (non-space) and returns that value.  
+  * <i>int letters_minus_whitespace(char[] value)</i>
+
+* Write a function that accepts a phrase (C string) and counts the number of words in the phrase and returns that value, words are separated by a space or a tab.
+  * <i>int word_count(char[] value)</i>
+
+* Write a function that accepts a phrase (C string) and reverses the content of the string.  
+  * <i>void reverse_string(char[] &value)</i>
+
+* Write a function that accepts a word and determines if it is a palindrome. 
+  * <i>bool is_palindrome(char[] value)</i>
+---
+
+# Next week - Test 1! 
+
+Complete review of everything through this chapter
+
+* main function (return type)
+* data types
+* variables (name, type, value)
+* control flow (if, while, do, for)
+* functions
+* function signatures (return type, name, parameter)
+* parameters, by value, by reference
+* input and output (cout, cin, get_s, readline)
+* arrays - size, length, type, name
+* strings
+* string functions (strcmp, strlen, strcat, strcpy)
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+
+
+# 
+
+    </textarea>textarea id="source">
+
+class: center, middle
+
+# INFO 450 Spring 2019
+
+---
+# Week 5 - Feb 13, 2019
+ 
+---
+# Homework Review
+
+---
+# Homework!
+
+Write a program that reads a set of 10 whole numbers from the user into an array.
+
+Once read in, it calculates the mean and the standard deviation of the numbers then displays the results to the console.
+
+1. Find the mean (the simple average of the numbers)
+2. Then, for each number, subtract the mean and square the result.
+3. Then, work out the mean of those squared differences.
+4. Take the square root of that, and we're done!
+
+```c++
+github/-your repo-/week4/program1.cpp
+```
+
+---
+
+```c++
+#include <iostream>
+#include <cmath>
+using namespace std;
+const int MAX_NUMBERS = 10;
+
+int main(){
+  int x = 0, sum = 0;
+  float mean, std_dev, temp_float = 0;
+
+  int all_numbers[MAX_NUMBERS];
+  float each_numbers[MAX_NUMBERS];
+
+  for (x = 0;x < MAX_NUMBERS;x++){
+    cout << "Enter the number for index " << x << ": ";
+    cin >> all_numbers[x];
+  }
+  for (x = 0;x < MAX_NUMBERS;x++){
+    cout << "[" << all_numbers[x] << "] ";
+  }
+  for (x = 0;x < MAX_NUMBERS;x++){
+    sum += all_numbers[x];
+  }
+  mean = (float) sum / MAX_NUMBERS;
+  cout << endl << "Mean is: " << mean << endl;
+  for (x = 0;x < MAX_NUMBERS;x++){
+    std_dev += pow((float)all_numbers[x] - mean, 2);
+  }
+  std_dev = std_dev / MAX_NUMBERS;
+  std_dev = sqrt(std_dev);
+  cout << "The std deviation is: " << std_dev << endl;
+
+  return 0;
+
+}
+
+
+```
+---
+# Homework 2!
+
+
+Write a program that inputs the names of the students in the class (to a max of 30 names)
+
+Store them in a 2-dimensional array
+
+Then outputs the class list to the console when the user enters an empty string (by pressing enter)
+---
+
+```c++
+#include <stdio.h>
+using namespace std;
+
+const int MAX_STUDENTS = 30;
+const int MAX_SIZE = 255;
+int main(){
+  int x = 0;
+  int count  = 0;
+  char students[MAX_STUDENTS][MAX_SIZE];
+  for(x = 0;x < MAX_STUDENTS;x++){
+    strcpy(students[x], "");
+  }
+  for(x = 0;x < MAX_STUDENTS;x++){
+    cout << "Please enter student for index " << x << " :";
+    cin.getline(students[x], MAX_SIZE);
+    if (!strcmp("0", students[x]) ){
+      cout << "Got a 0, breaking." << endl;
+      break;
+    }
+    count++ ;
+  }
+  for(x = 0;x < count;x++){
+    cout << "students[" << x << "] = " << students[x] << endl;
+  }
+}
+```
+
+---
+
+
+
+
+
+--- 
+# Example - String input / output
+
+```c++
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  char str[100];
+  cout << "Please enter a string: " << endl;
+  cin >> str;
+  cout << "You entered: " << str << endl;
+  cout << "Please enter another string: " << endl;
+  cin >> str;
+  cout << "You entered: " << str << endl;
+
+  return 0;
+}
+ 
+
+```
+---
+# Uh oh, what happened?
+
+<img src="bad_input.png" width="100%"/>
+
+* Only "My" is displayed instead of "My name is chris"
+* This is because the extract operator >> considers space as a termination character.
+
+
+---
+# Strings - cin.getline()
+
+2 forms:
+```c++
+istream& getline (char* s, streamsize n);
+istream& getline (char* s, streamsize n, char delim);
+```
+
+* Extracts characters from the stream and stores them into <i>s</i> as a c-string, until either the extract character is the <i>delimiting character</i>, or <i>n</i> characters have been written to <i>s</i> (including the terminating null character.
+
+* The delimiting character is the newline character (\n) for the first form, and <i>delim</i> for the second: when found in the input sequence, it is extracted from the input sequence, but discarded and not written to s.
+
+* A <i>null character</i> '\0' is automatically appended to the written sequence if <i>n</i> is greater than zero, even if an empty string is extracted.
+
+---
+# Example 
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main()
+{
+  char str[100];
+  cout << "Please enter a string: " << endl;
+  cin.getline(str,100);
+  cout << "You entered: " << endl;
+
+  cout << "Please enter another string: " << endl;
+  cin.getline(str, 100);
+  cout << "You entered: " << str << endl;
+
+  return 0;
+}
+```
+---
+# Practice - String input / output
+
+* Write a program to input your name in the keyboard, save it to an array and then iterate through the array to count the number of characters of the inputted text.
+
+
+---
+
+```c++
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+int main(){
+  const int MAX = 255;
+  char line[MAX];
+  int count = 0;
+  int x = 0;
+  cout << "Please enter a line of text: " << endl;
+  cin.getline(line, MAX);
+
+  while (line[x] != 0){
+    count++;
+    x++;
+  }
+  cout << "There are " << count << " characters in your string of: " << line << endl;
+  return 0;
+}
+
+```
+
+---
+# String Common Library Function
+
+C++ supports a wide range of string manipulation functions
+
+cstring
+
+Commonly used ones:
+* strcpy() // copy a string from one to another
+* strcat() // concatenate one string to another
+* strlen() // get the length of a string
+* strcmp() // compare a string w/ another
+
+---
+# String - strcpy()
+<i>strcpy(to, from)</i>
+
+* Copies string 'from' into string 'to'
+* The 'to' string must be large enough to hold the copied string
+* Both strings must be null-terminated and the resulting string will be null terminated
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main(){
+  char s1[100] = "";
+  char s2[100] = "Joseph";
+  
+  strcpy(s1, s2);
+
+  cout << "s1: *" << s1 << "* and s2: *" << s2 << "*" << endl;
+  return 0;
+}
+
+
+```
+---
+# String - strcat()
+<i>strcat(to, from)</i>
+
+Append string 'from' to string 'to'
+
+The 'to' string must be large enough to hold the concatenated strings
+
+Both strings must be null-terminated and the resulting string will be null-terminated
+
+```c++
+
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main(){
+  char firstName[] = "Mickey";
+  char lastName[] = "Mouse";
+  char fullName[100] = "";
+  strcat(fullName, firstName);
+  strcat(fullName, " ");
+  strcat(fullName, lastName);
+
+  cout << "Full Name is: " << fullName << endl;
+  return 0;
+}
+
+
+```
+
+---
+# String - strcmp()
+<i>strcmp(s1, s2)</i>
+* The function returns 0 if they are equal.   1 if s1 > s2 and -1 if s1 < s2
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main() {
+  char password1[100] = "";
+  char password2[100] = "";
+
+  cout << "Enter password: ";
+  cin.getline(password1, 100);
+  cout << "Re-Enter password: ";
+  cin.getline(password2, 100);
+
+  while(strcmp(password1, password2)){
+    cout << "Entered passwords are not the same. Try again." << endl;
+    cout << "Enter password: ";
+    cin.getline(password1, 100);
+    cout << "Re-Enter password: ";
+    cin.getline(password2, 100);
+  }
+
+  cout << "Passwords are the same. Match succeeded." << endl;
+  return 0;
+}
+```
+
+---
+# String - strlen()
+<i>strlen(s1)</i>
+
+* Returns the length of s1, not including the null terminating character
+
+```c++
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main()
+{
+  char password1[100] = "";
+  char password2[100] = "";
+    cout << "Passwords MUST be the same AND ";
+    cout << "password lengths must be at least 8 characters.";
+    cout << endl;
+  cout << "Please enter a password: ";
+  cin.getline(password1,100);
+  cout << "Please re-enter a password: ";
+  cin.getline(password2,100);
+
+  while (strcmp(password1, password2) || strlen(password1) < 8){
+    cout << "Passwords MUST be the same AND ";
+    cout << "password lengths must be at least 8 characters.";
+    cout << endl;
+    cout << "Please enter a password: ";
+    cin.getline(password1,100);
+    cout << "Please re-enter a password: ";
+    cin.getline(password2,100);
+  }
+  cout << "Password was successful." << endl;
+}
+
+```
+---
+# String functions in VS2015
+* Apparently, C++ in Visual Studio has deprecated some standard functions for security.
+* <i>#define _CRT_SECURE_NO_WARNINGS</i>
+* You can use the new string functions OR add preprocessor directives to the stdafx.h header file
+* When the pre-processor sees this directive, it ignores the deprecated functions
+
+```c++
+// stdafx.h include file for your awesome Visual Studio machines
+#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+#include "targetver.h"
+#include "stdio.h"
+#include "targetver.h"
+
+#include <stdio.h>
+#include <tchar.h>
+
+```
+---
+# Practice
+* Write a function that accepts a phrase (C string) and counts the number of letter (non-space) and returns that value.  
+  * <i>int letters_minus_whitespace(char[] value)</i>
+
+* Write a function that accepts a phrase (C string) and counts the number of words in the phrase and returns that value, words are separated by a space or a tab.
+  * <i>int word_count(char[] value)</i>
+
+* Write a function that accepts a phrase (C string) and reverses the content of the string.  
+  * <i>void reverse_string(char[] &value)</i>
+
+* Write a function that accepts a word and determines if it is a palindrome. 
+  * <i>bool is_palindrome(char[] value)</i>
+---
+
+# Next week - Test 1! 
+
+Complete review of everything through this chapter
+
+* main function (return type)
+* data types
+* variables (name, type, value)
+* operators (+, -, *, /, >, <, >= , <=, ==, !, etc)
+* control flow (if, while, do, for, switch)
+* break, continue
+* functions
+* function signatures (return type, name, parameter)
+* parameters, by value, by reference
+* input and output (cout, cin, get_s, readline)
+* arrays - size, length, type, name
+* strings
+* string functions (strcmp, strlen, strcat, strcpy)
+* Bonus points - github, git, version control
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
