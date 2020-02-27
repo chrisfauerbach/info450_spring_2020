@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INFO 450 - Week 7</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body 
+      { font-family: 'Droid Serif'; }
+
+      
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code, .remark-inline-code { font-size: 14px; }
+      i {
+          color: #0000FF;
+      }
+/* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+/* Two-column layout */
+      .left-column-half {
+        color: #777;
+        width: 50%;
+        height: 92%;
+        float: left;
+      }
+      .right-column-half {
+        width: 50%;
+        float: right;
+        padding-top: 1em;
+        line-height: .9em;
+      }
+
+      table {
+        width: 100%;
+        border: 2px solid black;
+        }
+        table, th, td {
+           border: 1px solid black;
+        }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source" class: center, middle >
+
+# INFO 450 Spring 2019
+
+---
+# Week 7 - Feb 27, 2020
+ 
+---
+# Test Review
+
+---
+# What is the length/size of the following array?
+
+```c++
+char my_array[] = "One";
+```
+
+---
+# What is the length/size of the following array?
+
+```c++
+char my_array[] = "One";
+```
+The ARRAY is FOUR elements:   'O', 'n', 'e', '\0'
+
+The STRING has a length o THREE:  'O', 'n', 'e'
+
+---
+# What is the value of 'e' when it is printed?
+
+```c++
+#include <iostream> 
+
+using namespace std; 
+
+int main (){       
+  int a = 3; 
+  int b = 4; 
+  int c; 
+  int d; 
+  int e; 
+  c = a + b; 
+  d = c / 2; 
+  e = d % 5; 
+  cout << "c: " << c << endl;   
+  cout << "d: " << d << endl;   
+  cout << "e: " << e << endl;   
+} 
+```
+
+---
+# 3
+```c++
+#include <iostream>
+
+using namespace std;
+
+int main (){
+  int a = 3;
+  int b = 4;
+  int c;
+  int d;
+  int e;
+  c = a + b;
+  d = c / 2;
+  e = d % 5;
+  cout << "c: " << c << endl;
+  cout << "d: " << d << endl;
+  cout << "e: " << e << endl;
+}
+```
+Truncates/floors the number.
+
+Loses precision.
+
+---
+# What does the following code print/output/cout?
+
+```c++
+
+#include <iostream>
+
+using namespace std;
+
+int main (){
+  int x = 32;
+  float y = x++;
+  cout << x << endl;
+  return 0;
+}
+``` 
+---
+# What does the following code print/output/cout?
+
+```c++
+#include <iostream>
+
+using namespace std;
+
+int main (){
+  int x = 32;
+  float y = x++;
+  cout << x << endl;
+  return 0;
+}
+```
+
+33 - `x` is incremented after it's assigned to `y`.  
+
+---
+# What does the following print/output/cout?
+
+```
+#include <iostream>
+using namespace std;
+
+
+int add_one(int one);
+
+
+int main (){       
+
+  char my_string[] = "This is valid string.";   
+
+  cout << my_string << endl;   
+
+  cout << add_one(1) << endl;       
+
+  return 0;
+
+}
+int add_one(int one){   
+
+  int two = one + 1
+
+}
+```
+---
+# Forward!
+
+---
+# String Class
+
+<a href="http://www.cplusplus.com/reference/string/string/">String class reference </a>
+
+Strings are objects that represent sequences of characters.
+
+The standard string class provides support for such objects with an interface similar to that of a standard container of bytes, but adding features specifically designed to operate with strings of single-byte characters.
+
+---
+# cstring vs. Standard String
+
+* cstrings are arrays of characters
+
+* A character array is simply an array of characters can terminated by a null character.
+
+* A string is a class which defines objects that be represented as stream of characters.
+
+* Size of the character array has to allocated statically, more memory cannot be allocated at run time if required. Unused allocated memory is wasted in case of character array
+
+* In case of strings, memory is allocated dynamically. More memory can be allocated at run time on demand. As no memory is preallocated, no memory is wasted.
+
+* Character array do not offer much inbuilt functions to manipulate strings. String class defines a number of functionalities which allow manifold operations on strings.
+
+---
+
+```c++
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main () {
+
+   string str1 = "Hello, ";
+   string str2 = "World!";
+   string str3; 
+
+   // copy str1 into str3
+   str3 = str1;
+   cout << "str3 : " << str3 << endl;
+
+   // concatenates str1 and str2
+   str3 = str1 + str2;
+   cout << "str1 + str2 : " << str3 << endl;
+
+   // total length of str3 after concatenation 
+   cout << "str3.size() :  " << str3.size() << endl;
+
+   return 0;
+}
+```
+```bash
+[Running] g++ string1.cpp -o string1 && ./string1
+str3 : Hello, 
+str1 + str2 : Hello, World!
+str3.size() :  13
+ 
+```
+<a href="string1.cpp">string1.cpp</a>
+---
+```c++
+  #include <iostream>
+  #include <string>
+  
+  using namespace std;
+  
+  int main () {
+  
+     string str1 = "Why don't we play?";
+      
+     cout << "str1.size() :  " << str1.size() << endl;
+     cout << "str1.length() :  " << str1.length() << endl;
+     cout << "str1.max_size() :  " << str1.max_size() << endl;
+     cout << "str1.capacity() :  " << str1.capacity() << endl;
+     cout << "str1.empty() :  " << str1.empty() << endl;
+     cout << "str1.clear() :  " << endl;
+     str1.clear();
+     cout << "str1.empty() :  " << str1.empty() << endl;
+  
+     return 0;
+  }
+```
+```bash
+[Running]  g++ string2.cpp -o string2 && ./string2
+str1.size() :  18
+str1.length() :  18
+str1.max_size() :  18446744073709551599
+str1.capacity() :  22
+str1.empty() :  0
+str1.clear() :  
+str1.empty() :  1
+```  
+<a href="string2.cpp">string2.cpp</a>
+---
+# Find
+
+```c++
+#include <iostream>
+  #include <string>
+  
+  using namespace std;
+  
+  int main () {
+  
+     string str1 = "She sells sea shells by the sea shore.";
+     
+     cout << "str1.find(\"she\") :  " << str1.find("she") << endl; 
+     cout << "string::npos - " << string::npos << endl;
+     cout << "str1.find(\"wood\") :  " << str1.find("wood") << endl; 
+     cout << "str1.find(\"wood\") :  " << (str1.find("wood") == string::npos) << endl; 
+  
+     return 0;
+  }
+  
+```
+```bash
+[Running]  g++ string3.cpp -o string3 && ./string3
+str1.find("she") :  14
+str1.find("wood") :  18446744073709551615
+string::npos - 18446744073709551615
+str1.find("wood") :  1
+```
+<a href="string3.cpp">string3.cpp</a>
+---
+# Reading Documentation
+
+<a href="http://www.cplusplus.com/reference/string/string/find/">http://www.cplusplus.com/reference/string/string/find/</a>
+
+```c++
+
+size_t find (const string& str, size_t pos = 0) const noexcept;
+
+size_t find (const char* s, size_t pos = 0) const;
+
+size_t find (const char* s, size_t pos, size_type n) const;
+
+size_t find (char c, size_t pos = 0) const noexcept;
+```
+
+* What is `size_t` ?
+
+* <i>size_t</i> is an unsigned integral type (the same as member type string::size_type).
+
+---
+# size_t
+
+<a href="http://www.cplusplus.com/reference/cstddef/size_t/">http://www.cplusplus.com/reference/cstddef/size_t/</a>
+
+Unsigned integral type
+Alias of one of the fundamental unsigned integer types.
+
+It is a type able to represent the size of any object in bytes: size_t is the type returned by the sizeof operator and is widely used in the standard library to represent sizes and counts.
+
+---
+```c++
+#include <iostream>
+  #include <string>
+  
+  using namespace std;
+  
+  int main () {
+  
+     string str1 = "She sells sea shells by the sea shore.";
+     size_t no_position = string::npos;
+     size_t string_length = str1.length();
+     size_t found_pos = str1.find("she");
+     
+     
+     cout << "string::npos  - " << string::npos << endl;
+     cout << "no_position   - " << no_position << endl;
+     cout << "str1.length() - " << str1.length() << endl;
+     cout << "string_length - " << string_length << endl;
+     cout << "find(\"she\") - " << str1.find("she") << endl; 
+     cout << "found_pos     - " << found_pos << endl;
+   
+     return 0;
+  }
+
+```
+```bash
+[Running] g++ string4.cpp -o string4 && ./string4
+string::npos  - 18446744073709551615
+no_position   - 18446744073709551615
+str1.length() - 38
+string_length - 38
+find("she") -  14
+found_pos     - 14
+```
+<a href="string4.cpp">string4.cpp</a>
+---
+# Vectors
+<a href="http://www.cplusplus.com/reference/vector/vector/">http://www.cplusplus.com/reference/vector/vector/</a>
+
+* Vectors are sequence containers representing arrays that can change in size.
+
+* Just like arrays, vectors use contiguous storage locations for their elements, which means that their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently as in arrays. But unlike arrays, their size can change dynamically.
+
+* Internally, vectors use a dynamically allocated array to store their elements. This array may need to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new array and moving all elements to it. 
+
+* Instead, vector containers may allocate some extra storage to accommodate for possible growth, and thus the container may have an actual capacity greater than the storage strictly needed to contain its elements (i.e., its size).  
+
+---
+```c++
+  #include <iostream>
+  #include <string> 
+  #include <vector>
+  using namespace std;
+  void print_vec(vector<string> *v_ptr);
+  
+  int main(){
+    vector<string> my_strings; // Create vector for 'string's
+    string s = string("foo");// Create first string, foo
+    string s2;
+    print_vec(&my_strings); // print the vector, empty
+    my_strings.push_back(s); // add 'foo'
+    print_vec(&my_strings); // print with only 'foo'
+    s = string("bar"); // new string bar
+    my_strings.push_back(s); // add to end 'bar'
+    print_vec(&my_strings); // print with 'foo','bar'
+    s = string("FIRST!"); // new string first
+    my_strings.insert(my_strings.begin()+0, s);
+    print_vec(&my_strings); // print 'FIRST!', 'foo','bar'
+    s2 = my_strings.back(); // Get the 'last' element
+    my_strings.pop_back(); // CLEAR the last element
+    cout << "... and the last element: " << s2 << endl;
+    print_vec(&my_strings);
+  }
+  void print_vec(vector<string> *v_ptr){
+      cout << "Vector: ";
+      for (int x = 0;x < v_ptr->size();x++){
+          cout << x << ": " << v_ptr->at(x) << ", ";
+      }
+      cout << endl;
+  }
+  ```
+  ```bash
+  [Running] g++ vector1.cpp -o vector1 && ./vector1
+Vector: 
+Vector: 0: foo, 
+Vector: 0: foo, 1: bar, 
+Vector: 0: FIRST!, 1: foo, 2: bar, 
+... and the last element: bar
+Vector: 0: FIRST!, 1: foo, 
+  ```
+  <a href="vector1.cpp">vector1.cpp</a>
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
