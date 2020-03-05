@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INFO 450 - Week 8</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body 
+      { font-family: 'Droid Serif'; }
+
+      
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code, .remark-inline-code { font-size: 14px; }
+      i {
+          color: #0000FF;
+      }
+/* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+/* Two-column layout */
+      .left-column-half {
+        color: #777;
+        width: 50%;
+        height: 92%;
+        float: left;
+      }
+      .right-column-half {
+        width: 50%;
+        float: right;
+        padding-top: 1em;
+        line-height: .9em;
+      }
+
+      table {
+        width: 100%;
+        border: 2px solid black;
+        }
+        table, th, td {
+           border: 1px solid black;
+        }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source" class: center, middle >
+
+# INFO 450 Spring 2020
+
+---
+# Week 7 - Mar 5, 2020
+ 
+---
+# Data structures
+
+Vectors - Linear list of objects/values.
+
+Queues -  First in, first out.  Class with functions (put, get)
+
+Stacks -  Last in, first out.   Class with functions (push, pop)
+
+---
+# Queue
+  <img height="150px" src='queue_linear_1.png'/> 4 items in queue<br/>
+  <img height="150px" src='queue_linear_2.png'/> after adding one more and removing one<br/>
+  <img height="150px" src='queue_linear_3.png'/> Add one more<br/>
+---
+# Queue - Abstraction of queue interface
+
+<img width="80%" src='queue_abstraction.png'/>
+
+---
+<a href="queue.cpp">queue</a>
+```c++
+  #include <iostream>
+  #include <vector>
+  using namespace std;
+  
+  class queue{
+    private:
+      vector<int> q; 
+    public:
+      queue();
+      ~queue();
+      void enqueue(int i);
+      int dequeue();
+      void print();
+  };
+  
+  queue::queue() { 
+    cout << "Queue initialized." << endl;
+  }
+  queue::~queue(){
+    cout << "Queue Destroyed." << endl;
+  }
+  ```
+---
+  ```c++
+  void queue::enqueue(int i){ 
+    q.push_back(i);
+    print();
+  }
+  
+  int queue::dequeue(){
+    int retval = -1;
+    if (q.size()){
+      retval = q.at(0);
+      q.erase(q.begin() + 0);
+    }
+    print();
+    return retval;
+  }
+  void queue::print(){ 
+     for (int i = 0;i < q.size();i++){
+       printf ("[ %02d:%02d], ", i, q[i] );
+     }
+     cout << endl;
+  }
+  int main()
+  {
+    queue my_queue;
+    cout << my_queue.dequeue() << endl; 
+    for (int x = 0;x< 20;x++){
+      my_queue.enqueue(x);
+    }
+    for (int x = 0;x< 20;x++){
+      for (int y = 0; y < x;y++){
+        cout << "----------";
+      }
+      my_queue.dequeue();
+    }
+    cout << endl;   
+  }
+  
+  
+```
+---
+```bash
+Queue initialized.
+
+-1
+[ 00:00], 
+[ 00:00], [ 01:01], 
+[ 00:00], [ 01:01], [ 02:02], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], [ 18:18], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], [ 18:18], [ 19:19], 
+[ 00:01], [ 01:02], [ 02:03], [ 03:04], [ 04:05], [ 05:06], [ 06:07], [ 07:08], [ 08:09], [ 09:10], [ 10:11], [ 11:12], [ 12:13], [ 13:14], [ 14:15], [ 15:16], [ 16:17], [ 17:18], [ 18:19], 
+----------[ 00:02], [ 01:03], [ 02:04], [ 03:05], [ 04:06], [ 05:07], [ 06:08], [ 07:09], [ 08:10], [ 09:11], [ 10:12], [ 11:13], [ 12:14], [ 13:15], [ 14:16], [ 15:17], [ 16:18], [ 17:19], 
+--------------------[ 00:03], [ 01:04], [ 02:05], [ 03:06], [ 04:07], [ 05:08], [ 06:09], [ 07:10], [ 08:11], [ 09:12], [ 10:13], [ 11:14], [ 12:15], [ 13:16], [ 14:17], [ 15:18], [ 16:19], 
+------------------------------[ 00:04], [ 01:05], [ 02:06], [ 03:07], [ 04:08], [ 05:09], [ 06:10], [ 07:11], [ 08:12], [ 09:13], [ 10:14], [ 11:15], [ 12:16], [ 13:17], [ 14:18], [ 15:19], 
+----------------------------------------[ 00:05], [ 01:06], [ 02:07], [ 03:08], [ 04:09], [ 05:10], [ 06:11], [ 07:12], [ 08:13], [ 09:14], [ 10:15], [ 11:16], [ 12:17], [ 13:18], [ 14:19], 
+--------------------------------------------------[ 00:06], [ 01:07], [ 02:08], [ 03:09], [ 04:10], [ 05:11], [ 06:12], [ 07:13], [ 08:14], [ 09:15], [ 10:16], [ 11:17], [ 12:18], [ 13:19], 
+------------------------------------------------------------[ 00:07], [ 01:08], [ 02:09], [ 03:10], [ 04:11], [ 05:12], [ 06:13], [ 07:14], [ 08:15], [ 09:16], [ 10:17], [ 11:18], [ 12:19], 
+----------------------------------------------------------------------[ 00:08], [ 01:09], [ 02:10], [ 03:11], [ 04:12], [ 05:13], [ 06:14], [ 07:15], [ 08:16], [ 09:17], [ 10:18], [ 11:19], 
+--------------------------------------------------------------------------------[ 00:09], [ 01:10], [ 02:11], [ 03:12], [ 04:13], [ 05:14], [ 06:15], [ 07:16], [ 08:17], [ 09:18], [ 10:19], 
+------------------------------------------------------------------------------------------[ 00:10], [ 01:11], [ 02:12], [ 03:13], [ 04:14], [ 05:15], [ 06:16], [ 07:17], [ 08:18], [ 09:19], 
+----------------------------------------------------------------------------------------------------[ 00:11], [ 01:12], [ 02:13], [ 03:14], [ 04:15], [ 05:16], [ 06:17], [ 07:18], [ 08:19], 
+--------------------------------------------------------------------------------------------------------------[ 00:12], [ 01:13], [ 02:14], [ 03:15], [ 04:16], [ 05:17], [ 06:18], [ 07:19], 
+------------------------------------------------------------------------------------------------------------------------[ 00:13], [ 01:14], [ 02:15], [ 03:16], [ 04:17], [ 05:18], [ 06:19], 
+----------------------------------------------------------------------------------------------------------------------------------[ 00:14], [ 01:15], [ 02:16], [ 03:17], [ 04:18], [ 05:19], 
+--------------------------------------------------------------------------------------------------------------------------------------------[ 00:15], [ 01:16], [ 02:17], [ 03:18], [ 04:19], 
+------------------------------------------------------------------------------------------------------------------------------------------------------[ 00:16], [ 01:17], [ 02:18], [ 03:19], 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------[ 00:17], [ 01:18], [ 02:19], 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------[ 00:18], [ 01:19], 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------[ 00:19], 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+```
+---
+# Stack
+<img width="50%" src='stack_overview.png'/>
+
+---
+# Stack
+<img src='stack_linear.png'/>
+
+---
+# Stack - Abstraction of stack interface
+<img src="stack_abstraction.png" width="80%"/>
+
+---
+<a href="stack.cpp">stack</a>
+```c++
+#include <iostream>
+  #include <vector>
+  using namespace std;
+  
+  class stack{
+    private:
+      vector<int> q; 
+    public:
+      stack();
+      ~stack();
+      void push(int i);
+      int pop();
+      void print();
+  };
+  
+  stack::stack() { 
+    cout << "Stack initialized." << endl;
+  }
+  stack::~stack(){
+    cout << "Stack Destroyed." << endl;
+  }
+  
+```
+---
+```c++
+
+void stack::push(int i){ 
+  q.push_back(i);
+  print();
+}
+
+int stack::pop(){
+  int retval = -1;
+  if (q.size()){
+    retval = q.back();
+    q.pop_back();
+  }
+  print();
+  return retval;
+}
+void stack::print(){ 
+   for (int i = 0;i < q.size();i++){
+     printf ("[ %02d:%02d], ", i, q[i] );
+   }
+   cout << endl;
+}
+int main()
+{
+  stack my_stack;
+  for (int x = 0;x< 20;x++){
+    my_stack.push(x);
+  }
+  for (int x = 0;x< 20;x++){
+    my_stack.pop();
+  }
+  cout << endl;   
+}
+
+```
+
+
+---
+```bash
+Stack initialized.
+[ 00:00], 
+[ 00:00], [ 01:01], 
+[ 00:00], [ 01:01], [ 02:02], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], [ 18:18], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], [ 18:18], [ 19:19], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], [ 18:18], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], [ 17:17], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], [ 16:16], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], [ 15:15], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], [ 14:14], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], [ 13:13], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], [ 12:12], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], [ 11:11], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], [ 10:10], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], [ 09:09], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], [ 08:08], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], [ 07:07], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], [ 06:06], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], [ 05:05], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], [ 04:04], 
+[ 00:00], [ 01:01], [ 02:02], [ 03:03], 
+[ 00:00], [ 01:01], [ 02:02], 
+[ 00:00], [ 01:01], 
+[ 00:00], 
+
+
+Stack Destroyed.
+```
+---
+# Ready for something fun?
+---
+# Spotify
+
+<img src="spotify.png" width="90%"/>
+
+---
+# Developer Interface - API
+
+<a href="https://developer.spotify.com/documentation/web-api/">https://developer.spotify.com/documentation/web-api/</a>
+
+<a href="https://developer.spotify.com/dashboard/login">Create an account</a>
+
+<a href="https://developer.spotify.com/dashboard/">Create an app</a>
+
+Get your secrets!
+Client ID, Client Secret -  These are for authentication and authorization
+
+<a href="https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow">Client Credentials Flow</a>
+The Client Credentials flow is used in server-to-server authentication. Only endpoints that do not access user information can be accessed. The advantage here in comparison with requests to the Web API made without an access token, is that a higher rate limit is applied.
+
+---
+# Full code
+
+<a href="spotify.cpp">spotify.cpp</a>
+
+requires libcurl
+
+```bash
+brew install curl
+```
+
+https://curl.haxx.se/docs/install.html
+
+
+
+---
+```c++
+int main(void)
+{
+  CURL *curl;
+  CURLcode res;
+  struct curl_slist *list = NULL;
+  string encoded_keys;
+  struct MemoryStruct chunk;
+  chunk.memory = (char *)malloc(1);
+  chunk.size = 0;    /* no data at this point */
+
+  /* In windows, this will init the winsock stuff */
+  curl_global_init(CURL_GLOBAL_ALL);
+  const char* client_id = getenv("CLIENT_ID");
+  const char* client_secret = getenv("CLIENT_SECRET");
+  if (!strlen(client_id)){
+    printf("Missing client id");
+    return -1;
+  }
+  if (!strlen(client_secret)){
+    printf("Missing client_secret");
+    return -1;
+  }
+  /* get a curl handle */
+  curl = curl_easy_init();
+```
+
+---
+```c++
+  if(curl) {
+    char keys[1024];
+    sprintf(keys, "%s:%s", client_id, client_secret);
+    cout << "Raw     keys = " << keys << endl;
+    encoded_keys = base64_encode(keys, strlen(keys));
+    cout << "Encoded keys = " << encoded_keys << endl;
+    char auth_key[1024];
+    sprintf (auth_key, "Authorization: Basic %s", encoded_keys.c_str());
+    printf("Auth : [%s]\n", auth_key);
+    list = curl_slist_append(list, auth_key);
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
+
+    curl_easy_setopt(curl, CURLOPT_URL, "https://accounts.spotify.com/api/token");
+
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "grant_type=client_credentials&project=curl");
+
+    static const char *parms = "grant_type=client_credentials";
+    cout << "Trying to send: ("<<strlen(parms) << ")" << parms << endl;
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parms);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(parms));
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);
+
+
+    res = curl_easy_perform(curl);
+    /* Check for errors */
+    if(res != CURLE_OK){
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+              curl_easy_strerror(res));
+    }else {
+      printf("%lu bytes retrieved\n", (unsigned long)chunk.size);
+      printf("%s", chunk.memory);
+    }
+    /* always cleanup */
+    curl_easy_cleanup(curl);
+    free(chunk.memory);
+  }
+  curl_global_cleanup();
+  return 0;
+}
+```
+---
+# Python - Cause I can
+```python
+import base64
+import requests
+import os
+import sys
+
+key = os.environ.get("CLIENT_ID")
+secret = os.environ.get("CLIENT_SECRET")
+if not key:
+    print("Missing client id.")
+    sys.exit(-1)
+if not secret:
+    print("Missing client secret.")
+    sys.exit(-1)
+
+url = "https://accounts.spotify.com/api/token"
+combined = f"{key}:{secret}"
+encoded = base64.b64encode(bytes(combined, "utf-8")).decode('utf-8')
+auth_header = f"Basic {encoded}"
+data = {"grant_type":"client_credentials"}
+# print("Current encoded keys: ", auth_header)
+headers = { "Authorization": auth_header}
+res = requests.post(url, headers=headers, data=data)
+print(res)
+print(res.text)
+
+```
+
+---
+# No homework over break
+
+We WILL have a quiz when we get back on everything we've learned up until today 
+
+## (Not spotify, libcurl, python)
+
+
+
+---
+
+
+
+---
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
