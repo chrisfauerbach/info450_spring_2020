@@ -21,6 +21,10 @@ void timer::run(){
 }
 int main(){
   timer a(2), b("5"), c(0,10);
+
+  timer d;
+  d = timer(2);
+
   a.run();
   b.run();
   c.run();

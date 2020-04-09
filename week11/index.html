@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INFO 450 - Week 11</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body 
+      { font-family: 'Droid Serif'; }
+
+      
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code, .remark-inline-code { font-size: 14px; }
+      i {
+          color: #0000FF;
+      }
+/* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+/* Two-column layout */
+      .left-column-half {
+        color: #777;
+        width: 50%;
+        height: 92%;
+        float: left;
+      }
+      .right-column-half {
+        width: 50%;
+        float: right;
+        padding-top: 1em;
+        line-height: .9em;
+      }
+
+      table {
+        width: 100%;
+        border: 2px solid black;
+        }
+        table, th, td {
+           border: 1px solid black;
+        }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source" class: center, middle >
+
+# INFO 450 Spring 2019
+
+---
+# Week 11 - April 9, 2020
+ 
+---
+
+# Recursion
+
+## Chapter 7, pg 153
+
+<strong>Recursion</strong> is the process of defining smoething in terms of itself, circular definitions.
+
+e.g. <i>A circle is defined as something circular in shape</i>
+
+In programming (not just C++), recursion is the process of a function calling itself.
+
+A function that calls itself is said to be <strong>recursive</strong>.
+
+---
+# Classis Factorial Example
+
+The factorial of a number <i>N</i> is the product of all the whole numbers between <i>1</i> and <i>N</i>
+
+For Example, 4 factorial is 1x2x3x4 = 24
+
+Let's compare the 'iterative' implementation of factorial to the recursive implementation
+
+---
+# Iterative Implementation
+
+```c++
+#include <iostream>
+using namespace std;
+
+int fact(int n);
+
+int main(){
+
+  for (int x = 1;x < 10;x++){
+     cout << x << " factorial is " << fact(x) << endl;
+  }
+
+}
+
+int fact(int n){
+  int counter;
+  int answer;
+
+  for (counter = 1;counter <= n; counter ++){
+     answer = answer * counter;
+  }
+
+  return answer;
+}
+```
+
+
+<a href="iterative_factorial.cpp">iterative_factorial.cpp</a>
+---
+# Recursive Factorial
+
+```c++
+
+#include <iostream>
+using namespace std;
+
+int factr(int n);
+
+int main(){
+
+  for (int x = 1;x < 10;x++){
+     cout << x << " rec factorial is " << factr(x) << endl;
+  }
+
+}
+
+int factr(int n){
+  int answer;
+  if (n == 1) return 1;
+  answer = factr(n - 1) * n;
+  return answer;
+}
+```
+
+<a href="recursive_factorial.cpp">recursive_factorial.cpp</a>
+---
+*Break it down*
+```c++
+int factr(int n){
+```
+factr function returns an integer and accepts an integer
+
+```c++
+  int answer;
+```
+answer is the variable that will hold the result and return it
+
+```c++
+  if (n == 1) return 1;
+```
+CRITICAL to always have an 'exit' point of a recursive program, like avoiding an infinite loop
+
+```c++
+  answer = factr(n - 1) * n;
+```
+ The recursion.   call factr with one less than n.  Which will then call factr with another one less than n, until n is 1.  Then, returns it to by multipled against the 'next' number
+
+```c++
+  return answer;
+}
+```
+and return
+
+---
+# String Reverse
+
+Another example of a recursive function
+
+```c++
+#include <iostream>
+using namespace std;
+
+void reverse(char *s);
+
+int main(){
+
+   char str[] = "this is a test";
+   cout << "Reversed: ";
+   reverse(str);
+   cout << endl;
+   return 0;
+}
+
+void reverse(char *s){
+  if (*s){
+    reverse(s+1);
+  }
+    else{
+    return;
+  }
+  cout << *s;
+}
+```
+<a href="reverse.cpp">reverse.cpp</a>
+
+---
+
+# Binary Tree
+
+A tree structure that will hold data (int in this case)
+
+Efficient collection of data since it's stored in a semi-sorted manner
+
+Class Node:
+
+private attributes, 'left', 'right' nodes
+
+functions, 'add','print'
+
+---
+# Code
+
+```c++
+#include <cstdio>
+
+class Node{
+ private:
+   Node* left;
+   Node* right;
+   int data;
+ public:
+   Node(){
+       data = 0;
+       left = right = 0;
+   }
+   Node(int v){
+       data = v;
+       left = right = 0;
+   }
+   void add(Node* n);
+   void print();
+};
+```
+---
+```c++
+void Node :: add(Node* n){
+  if (!left){
+    left = n;
+  }
+  else if (!right){
+    right = n;
+  }
+  else{
+     if (n->data < left->data) left->add(n);
+     else  right->add(n);
+  }
+
+}
+void Node :: print(){
+   if (left) left->print();
+   printf("data = %i\n", data);
+   if (right) right->print();
+}
+
+int main() {
+  Node *root = new Node(0);
+  root->add(new Node(1));
+  root->add(new Node(2));
+  root->add(new Node(-1));
+  root->add(new Node(12));
+  root->print();
+  return 0;
+}
+```
+
+
+
+
+
+---
+# What are the recursive functions?
+
+... there are two
+
+... why are they recursive?
+
+... how could you build this 'iteratively'
+
+---
+# File I/O 
+
+## Pg 435, Chapter 10
+
+C++ I/O (Input/Output) system can perform operations on files in a file system.
+
+A file is opened by linking it to a 'stream'
+
+There are three types of streams:
+* Input
+* Output
+* Both
+
+---
+# Steps
+
+* Create a stream
+* Connect a stream to a file (open)
+* Read/Write
+* Close
+
+# ALWAYS CLOSE THE FILE
+ 
+
+---
+# Write to a file
+
+
+```c++
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+
+  ofstream out("test");
+  if (!out) {
+     cout << "Cannot open file." << endl;
+     return 1;
+  }
+ 
+  out << 10 << " " << 123.23 << endl; 
+  out << "This is a short text file." << endl;
+
+  out.close();
+
+  return 0;
+
+}
+```
+<a href="write.cpp">write.cpp</a>
+---
+# Read
+
+```c++
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(){
+
+  char ch;
+  int i;
+  float f;
+  char str[80];
+
+  ifstream in("test");
+  if (!in){
+    cout << "Cannot open file." << endl;
+    return 1;
+  }
+  
+  in >> i;
+  in >> f;
+  in >> ch;
+  in >> str;
+  cout << i << " " << f << " " << ch << endl;
+  cout << str;
+
+  in.close();
+  return 0;
+
+}
+
+```
+<a href="read.cpp">read.cpp</a>
+---
+# Homework
+
+* Write a program that generates a list of 1,000 random integers and writes them to a file.
+
+* Each integers, n, must match:    -10000 < n < 10000
+
+* Use the rand function: <a href="http://www.cplusplus.com/reference/cstdlib/rand/" target="_blank">rand()</a>
+
+* Your program should require no user input, and should not print anything to the stdout (no cout, no printf)
+
+* Your program must write to a file called "randoms.txt"
+
+* Each line must only contain an integer and a newline (endl)
+
+* If you run <i>wc -l</i> on a Mac/*nix system, the output should output:
+   ```bash
+$ wc -l randoms.txt
+10000 randoms.txt
+```
+* Windows equivalent MAY be:
+```bash
+find /v /c "&*fake&*" randoms.txt
+```
+---
+# Homework logistics
+Due April 15th, 2020 by Midnight Eastern.
+
+WEDNESDAY NIGHT/MIDNIGHT so we can go over it in class next week.
+
+Filename must be: github.com/your-repository/week11/random_write.cpp
+
+Do NOT change the output at all. I will be doing some sneaky things, but looking at your output EXACTLY as it is.
+
+Email me when you're done, that makes grading easier.
+
+
+
+## This homework will be critical for the following week's REALLY important homework.  
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

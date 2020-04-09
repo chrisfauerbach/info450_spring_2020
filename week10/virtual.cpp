@@ -53,14 +53,13 @@ void automobile::show(){
   cout << endl;
 }
 int main(){
- truck t1;
+
  automobile c;
- t1.set_wheels(16);
- t1.set_pass(2);
- t1.set_cargo(18000);
  c.set_wheels(4);
  c.set_pass(2);
  c.set_type(car);
+
+
  road_vehicle r1 = c;
  cout << "Base: r1" << endl;
  r1.show();
@@ -68,5 +67,8 @@ int main(){
  p = &c;
  cout << "pointer: *p" << endl;
  p->show();
+ cout << "Automobile" << endl;
+ c.show();
+
 }
 
