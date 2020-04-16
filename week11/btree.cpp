@@ -80,6 +80,8 @@ int main() {
   root->add(new Node(5));
   root->add(new Node(15));
   root->print();
+
+  
   print2D(root);  
 
   return 0;

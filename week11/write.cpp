@@ -10,6 +10,7 @@ int main()
   }
   out << 10 << " " << 123.23 << endl; 
   out << "This is a short text file." << endl;
+  // fprintf(out, "Then the string");
   out.close();
   return 0;
 }

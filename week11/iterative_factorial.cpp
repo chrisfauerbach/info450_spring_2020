@@ -13,7 +13,7 @@ int main(){
 
 int fact(int n){
   int counter;
-  int answer;
+  int answer = 1;
 
   for (counter = 1;counter <= n; counter ++){
      answer = answer * counter;
