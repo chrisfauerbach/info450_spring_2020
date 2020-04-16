@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INFO 450 - Week 12</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body 
+      { font-family: 'Droid Serif'; }
+
+      
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code, .remark-inline-code { font-size: 14px; }
+      i {
+          color: #0000FF;
+      }
+/* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+/* Two-column layout */
+      .left-column-half {
+        color: #777;
+        width: 50%;
+        height: 92%;
+        float: left;
+      }
+      .right-column-half {
+        width: 50%;
+        float: right;
+        padding-top: 1em;
+        line-height: .9em;
+      }
+
+      table {
+        width: 100%;
+        border: 2px solid black;
+        }
+        table, th, td {
+           border: 1px solid black;
+        }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source" class: center, middle >
+
+# INFO 450 Spring 2019
+
+---
+# Week 12 - April 16, 2020
+ 
+---
+# Homework
+
+* Write a program that generates a list of 1,000 random integers and writes them to a file.
+
+* Each integers, n, must match:    -10000 < n < 10000
+
+* Use the rand function: <a href="http://www.cplusplus.com/reference/cstdlib/rand/" target="_blank">rand()</a>
+
+* Your program should require no user input, and should not print anything to the stdout (no cout, no printf)
+
+* Your program must write to a file called "randoms.txt"
+
+* Each line must only contain an integer and a newline (endl)
+
+* If you run <i>wc -l</i> on a Mac/*nix system, the output should output:
+   ```bash
+$ wc -l randoms.txt
+1000 randoms.txt
+```
+* Windows equivalent MAY be:
+```bash
+find /v /c "&*fake&*" randoms.txt
+```
+---
+# Homework logistics
+Due April 15th, 2020 by Midnight Eastern.
+
+WEDNESDAY NIGHT/MIDNIGHT so we can go over it in class next week.
+
+Filename must be: github.com/your-repository/week11/random_write.cpp
+
+Do NOT change the output at all. I will be doing some sneaky things, but looking at your output EXACTLY as it is.
+
+Email me when you're done, that makes grading easier.
+
+
+
+## This homework will be critical for the following week's REALLY important homework.  
+---
+
+```c++
+#include <iostream>
+#include <fstream>
+#include <time.h>
+using namespace std;
+int main()
+{
+  int v1 = 0;
+  int min = 1000000;
+  int max = -1000000;
+  int x = 0;
+  srand (time(NULL));
+
+  ofstream out("randoms.txt");
+  if (!out) {
+     cout << "Cannot open file." << endl;
+     return 1;
+  }
+  for (x = 0; x < 100000000; x++){
+    int v1 = rand() % 19999 - 9999;
+    if (v1 >= 10000 || v1 <= -10000){
+       cout << "ERROR WHILE GENERATING NUMBER: " << v1 << endl;
+       break;
+    }
+    if (v1 < min) min = v1;
+    if (v1 > max) max = v1;
+    if (x >= 1000) continue;
+    out << v1 << endl;
+  }
+  // cout << "Generated " << x <<  " numbers: Min / Max :: " << min << " / " << max << endl;
+  out.close();
+  return 0;
+}
+
+```
+<a href="homework_11_answer.cpp">homework_11_answer.cpp</a>
+---
+# Break it down
+
+```c++
+
+      int v1 = rand() % 19999 - 9999;
+ 
+```
+  
+# rand() 
+Returns a pseudo-random integral number in the range between 0 and RAND_MAX (inclusive)
+
+# rand() % 19999 
+Number between 0 and 19998 (inclusive)
+     
+# rand() % 19999 - 9999 
+Between -9999 && 9999 (inclusive)
+---
+# Over a few slides, let's sort the list
+
+* Read the file into memory
+* Sort the data
+* Write to another file
+
+---
+
+
+# Revisit reading the file
+
+```c++
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+int main(){
+  int place_holder;
+  ifstream in("randoms.txt");
+  string str;
+  int counter = 0;
+  if (!in){
+    cout << "Cannot open file." << endl;
+    return 1;
+  }
+
+  while (getline(in, str)) {
+    counter++;
+    place_holder = atoi(str.c_str());
+    cout << counter << ": as int:  " << place_holder << endl;
+  }
+  in.close();
+  ifstream 
+  if (!in){
+    cout << "Cannot open file." << endl;
+    return 1;
+  }
+  return 0;
+}
+
+```
+
+---
+# Load them into a <a href="http://www.cplusplus.com/reference/vector/vector/">vector</a>
+
+
+```c++
+
+  vector<int> all_numbers;
+
+  while (getline(in, str)) {
+    counter++;
+    place_holder = atoi(str.c_str());
+    cout << counter << ": as int:  " << place_holder << endl;
+    all_numbers.push_back(place_holder);
+  }
+
+```
+
+---
+# Implement Bubble Sort
+
+```c++
+
+void sort_vector(vector<int> *v){
+  int i, j;
+  vector<int>& local_vector = *v;
+  cout << " : " << &local_vector << endl;
+  int length = local_vector.size();
+  for (i = 0; i < length-1; i++){
+     for (j = 0; j < length-i-1; j++){
+       if (local_vector[j] > local_vector[j+1]){
+         // cout << " Swapping: " << local_vector[j] << " : " << local_vector[i] << endl;
+         int temp = local_vector[j];
+         local_vector[j] = local_vector[j+1];
+         local_vector[j+1] = temp;
+       }
+     }
+  }
+}
+
+```
+
+---
+# Write sorted data to a file
+
+```c++
+int main(){
+  int place_holder;
+  string str;
+  int counter = 0;
+  vector<int> all_numbers;
+
+  ifstream in("randoms.txt");
+  ofstream out("sorted.txt");
+
+  if (!in){
+    cout << "Cannot open input file." << endl;
+    return 1;
+  }
+  if (!out){
+    cout << "Cannot open output file." << endl;
+    return 2;
+  }
+
+  while (getline(in, str)) {
+    counter++;
+    place_holder = atoi(str.c_str());
+    // cout << counter << ": as int:  " << place_holder << endl;
+    all_numbers.push_back(place_holder);
+  }
+
+  cout << &all_numbers;
+
+  sort_vector(&all_numbers);
+
+  for (int x = 0 ; x < all_numbers.size();x++){
+    cout << x << " : " << all_numbers[x] << endl;
+    out << all_numbers[x] << "\n";
+  }
+
+  in.close();
+  out.close();
+  return 0;
+}
+```
+---
+# All code in one file:
+
+<a href="sort_hw.cpp">sort_hw.cpp</a>
+
+---
+# Packaging Code
+
+In a typical C++ application, you will have many files with code in them.
+
+Header - .h -  files store 'prototypes'.  Class definitions and function prototypes
+
+Function implementation is in .cpp files
+
+When you compile a C++ program, you must tell the compiler how to bring it all together
+
+
+---
+# Makefile
+
+'make' is a program that depends on a 'Makefile'
+
+'make' executes steps to compile your program
+
+Think of it like a dependency management component with an efficient batch process to compile your dependencies.
+
+---
+# Template for a Makefile
+
+```makefile
+default: sort
+
+sorter.o:
+        g++ -c sorter.cpp
+
+sort: sorter.o
+        g++ -o sorter main.cpp sorter.o
+
+clean:
+        rm -f sorter.o sorter
+
+```
+---
+# Homework
+
+* Make this <a href="Makefile">Makefile</a> work with the sorting code from slides tonight.  
+* This is not a coding problem, but a code organization problem
+   * Makefile
+   * main.cpp
+   * sorter.h
+   * sorter.cpp
+   * randoms.txt
+* Due Wednesday, Midnight, 4/22/2020
+* /github.com/user/repo/week12/[[files]]
+
+* Hint: There will be some code changes required dealing with 'include's 
+* To grade, I will verify each file contains what it should and I will compile and run your code.
+* The output will be a 'sorted.txt' file that I will validate.
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
