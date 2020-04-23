@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INFO 450 - Week 13</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body 
+      { font-family: 'Droid Serif'; }
+
+      
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code, .remark-inline-code { font-size: 14px; }
+      i {
+          color: #0000FF;
+      }
+/* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+/* Two-column layout */
+      .left-column-half {
+        color: #777;
+        width: 50%;
+        height: 92%;
+        float: left;
+      }
+      .right-column-half {
+        width: 50%;
+        float: right;
+        padding-top: 1em;
+        line-height: .9em;
+      }
+
+      table {
+        width: 100%;
+        border: 2px solid black;
+        }
+        table, th, td {
+           border: 1px solid black;
+        }
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source" class: center, middle >
+
+# INFO 450 Spring 2019
+
+---
+# Week 13 - April 23, 2020
+ 
+---
+# Protected Class Members
+
+* Public - All the class members declared under public will be available to everyone. The data members and member functions declared public can be accessed by other classes too. The public members of a class can be accessed from anywhere in the program using the direct member access operator (.) with the object of that class.
+
+* Private - The class members declared as private can be accessed only by the functions inside the class. They are not allowed to be accessed directly by any object or function outside the class.
+
+* Protected - Protected access modifier is similar to that of private access modifiers, the difference is that the class member declared as Protected are inaccessible outside the class but they can be accessed by any subclass(derived class) of that class.
+
+
+---
+# Example - <a href='first.cpp'>first.cpp</a>
+
+```c++
+#include <iostream> 
+using namespace std; 
+
+// base class 
+class Parent 
+{ 
+    // protected data members 
+    protected: 
+    int id_protected; 
+	
+}; 
+
+// sub class or derived class 
+class Child : public Parent 
+{ 
+    public: 
+    void setId(int id) 
+    { 
+        // Child class is able to access the inherited 
+        // protected data members of base class 
+        id_protected = id; 
+    } 
+	
+    void displayId() 
+    { 
+        cout << "id_protected is: " << id_protected << endl; 
+    } 
+}; 
+
+int main() { 
+	Child obj1; 
+	
+	obj1.setId(81); 
+	obj1.displayId(); 
+	return 0; 
+} 
+
+
+```
+---
+# Example - <a href='second.cpp'>second.cpp</a>
+
+```c++
+#include <iostream>
+using namespace std;
+
+// base class
+class Parent
+{
+    // protected data members
+    protected:
+    int id_protected;
+
+};
+
+// sub class or derived class
+class Child : public Parent
+{
+    public:
+    void setId(int id)
+    {
+        // Child class is able to access the inherited
+        // protected data members of base class
+        id_protected = id;
+    }
+
+    void displayId()
+    {
+        cout << "id_protected is: " << id_protected << endl;
+    }
+};
+
+int main() {
+    Child obj1;
+    obj1.id_protected = 81; // does this work?
+    return 0;
+}
+
+
+```
+
+---
+# Nope
+
+```bash
+$ g++ second.cpp
+second.cpp:32:14: error: 'id_protected' is a protected member of 'Parent'
+        obj1.id_protected = 81; // does this work?
+             ^
+second.cpp:9:9: note: declared protected here
+    int id_protected;
+        ^
+1 error generated.
+```
+
+The main function is NOT in a class that's in a hierarchical relationship with the base (Parent) class.
+---
+# Calling Super Constructors
+
+* A child class can reference a parent classes constructor
+* This is used to set 'private' variables on super classes.
+
+```c++
+#include <iostream>
+using namespace std;
+class SuperClass
+{
+    public:
+
+        SuperClass(int foo)
+        {
+            cout << "SuperClass: foo parameter: " << foo << endl;
+        }
+};
+
+class SubClass : public SuperClass
+{
+    public:
+
+        SubClass(int foo, int bar)
+        : SuperClass(foo)    // Call the superclass constructor in the subclass' initialization list.
+        {
+            cout << "SubClass: foo,bar parameter: " << foo << "," << bar << endl;
+        }
+};
+
+int main(){
+   SubClass c(10,20); 
+   return 0;
+}
+```
+<a href="parent.cpp">parent.cpp</a>
+---
+# Building a console application
+
+* A console application is a computer program designed to be used via a text-only computer interface, such as a text terminal, the command line interface of some operating systems (Unix, DOS, etc.) or the text-based interface included with most Graphical User Interface (GUI) operating systems, such as the Win32 console in Microsoft Windows, the Terminal in macOS, and xterm in Unix.
+
+* Examples:  vi, nano, g++, fdisk, curl, wget
+
+
+---
+# Building an interactive console application
+
+* Build a program that validates different data types.
+* Program will validate strings, booleans or integers
+* Top level 'menu' will prompt for what data type we will be validating
+* Second prompt will ask for user input and then validate it based on the data type
+
+Top level prompt:
+```bash
+Please select a data type (by number) below:
+0. String
+1. Boolean
+2. Integer
+3. (Exit)
+```
+After the user selects a data type, prompt the user:
+
+"Please input some data to see if its a [datatype]"
+
+For booleans, input value needs to be either 'true' or 'false' , case insensitive
+
+after validation, 
+
+"Your input, [input], [is/is not] a [datatype]"
+
+---
+# Validator - <a href="validator.cpp">validator.cpp</a>
+```c++
+#include <iostream>
+using namespace std;
+
+void print_menu();
+bool is_integer(const char* input);
+bool is_bool(const char* input);
+bool is_string(const char* input);
+
+```
+
+---
+```c++
+int main(){
+  string user_input;
+  string variable_type;
+  string data_input;
+  bool success = false;
+  while (1){
+    print_menu();
+    getline(cin, user_input);
+    cout << "User entered " << user_input << endl;
+    if (user_input == "3"){
+       break;    
+    }
+    
+    if (user_input == "0"){
+      variable_type = "string";
+    } else if (user_input == "1"){
+      variable_type = "boolean";
+    } else if (user_input == "2"){
+      variable_type = "integer";
+    } 
+    printf("Please input some data to see if it's a %s\n", variable_type.c_str());
+    getline(cin, data_input);
+     
+    if (variable_type == "integer"){
+       success = is_integer(data_input.c_str());
+    } 
+    if (variable_type == "boolean"){
+       success = is_bool(data_input.c_str());
+    } 
+    if (variable_type == "string"){
+       success = is_string(data_input.c_str());
+    } 
+    printf("Your input, %s, %s a %s\n", data_input.c_str(), success ? "is":"is not" , variable_type.c_str());
+  }    
+
+}
+
+```
+---
+```c++
+
+void print_menu(){
+   cout << "Please select a data type (by number) below:" << endl;
+   cout << "0. String" << endl;
+   cout << "1. Boolean" << endl;
+   cout << "2. Integer" << endl;
+   cout << "3. (Exit)" << endl;
+}
+
+bool is_integer(const char* input){
+  char * pEnd;
+  long int li1, li2, li3, li4;
+  li1 = strtol (input,&pEnd,10); 
+  // cout << "Found number is: " << li1 << endl;
+  // cout << "pEnd: [" << pEnd << "]\n";
+  return *pEnd==0;
+}
+
+bool is_bool(const char* input){
+    // cout << "Is true: " << strcmp(input, "true") << endl;
+    // cout << "Is false: " << strcmp(input, "false") << endl;
+
+    if (strcmp(input, "true") == 0) return true;
+    if (strcmp(input, "false") == 0) return true;
+    return false;
+}
+
+bool is_string(const char* input){
+  return strlen(input) > 0;
+}
+```
+---
+# Any questions
+
+---
+# Exam / Homework
+
+* I want to give a big coding challenge for the exam
+* This will encompass many aspects that we've talked about.
+* This is DUE Wednesday,  May 5th MIDNIGHT
+* This will be 30% of your exam
+
+Information: <a href="homework.html">homework.html</a>
+
+* Submit: github.com/you/repo/exam/[files]
+  * account.cpp/.h
+  * checking.cpp/.h
+  * savings.cpp/.h
+  * creditcard.cpp/.h
+  * main.cpp
+  * Makefile
+
+---
+
+## Exam
+
+* Thursday, May 6th at 7PM.   This will be open book and open notes.
+* Do not take code from the internet
+* Do not collaborate with other students
+* I have previously sent students to the honor council, don't make me do it again.
+* Exam will have 2 hours to complete (7P-9P).  If you can NOT be there, coordinate with me before hand.  The more notice you give, the happier I'll be.
+
+## Next week, will be exam review (and last class!)
+
+# FILL OUT YOUR COURSE EVALUATION
+
+<a href="http://go.vcu.edu/eval">http://go.vcu.edu/eval</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

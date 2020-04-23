@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Exam work</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+  <h1>Exam Code</h1>
+  <!-- Content here -->
+<p>For the exam we will implement a classic Inheritance hierarchy. A simple console
+based interface is all that is needed. Build your classes first, each in their own
+.h and .cpp files, then test them with the simple main method provided below. 
+</p>
+
+<h2>Phase 1 :</h2>
+
+<p>Here is the following set of classes you will implement and their inheritance relationship:</p>
+
+<h3>&nbsp;<img class="" src="exam.jpg" alt="Hierarchy Chart of Classes" width="454" height="182"><br>Account
+</h3>
+
+<p>The generic BASE class Account will serve as the parent class to Checking, Savings
+and CreditCard.
+</p>
+
+<p>Variables (private):</p>
+
+<ul>
+
+<li>name - Name of account owner, a string</li>
+
+<li>taxID - social security number, a long</li>
+
+<li>balance - an amount in dollars, a double</li>
+
+</ul>
+
+<p>Variables (protected):</p>
+
+<ul>
+
+<li>numdeposits - number of deposits, an int</li>
+
+<li>numwithdraws - number of withdrawals, an int</li>
+
+</ul>
+
+<p>Methods:</p>
+
+<ul>
+
+<li>SetName, SetTaxID, Setbalance() assigns a new value for each with error checking</li>
+
+<li>GetName, GetTaxID, Getbalance() returns a value for each variable.</li>
+
+<li>MakeDeposit( double amount ) - adjust the balance and put it in the deposit array</li>
+
+<li>A constructor with no parameters and one with name, taxID and balance parameters</li>
+
+<li>display() a method to display the name, taxID and balance</li>
+
+</ul>
+
+<h3>Checking</h3>
+
+<p>A specific DERIVED class that represents a bank checking account. It must inherit
+Account.
+</p>
+
+<p>Variables (private):</p>
+
+<ul>
+
+<li>last10checks - an int array of size 10. The last 10 check numbers.</li>
+
+</ul>
+
+<p>Methods:</p>
+
+<ul>
+
+<li>WriteCheck( int checknum, double amount ) - adjust the balance and list it as a withdraw
+in the base class
+</li>
+
+<li>A constructor with no parameters and one with name, taxID and balance parameters</li>
+
+<li>display() - display the accounts check register (number and amount) and deposit record
+
+</li>
+
+</ul>
+
+<h3>Savings</h3>
+
+<p>A specific DERIVED class that represents a bank savings account. It must inherit Account.</p>
+
+<p>Methods:</p>
+
+<ul>
+
+<li>DoWithdraw( double amount) - adjust the balance and list it as a withdraw in the base
+class
+</li>
+
+<li>A constructor with no parameters and one with name, taxID and balance parameters</li>
+
+<li>display() - display the accounts withdrawal and deposit record </li>
+
+</ul>
+
+<h3>CreditCard</h3>
+
+<p>A specific DERIVED class that represents a credit card account. It must inherit Account.</p>
+
+<p>Variables:</p>
+
+<ul>
+
+<li>cardnumber - a long</li>
+
+<li>last10charges - a string array of size 10. The last 10 names of the charges.</li>
+
+</ul>
+
+<p>Methods:</p>
+
+<ul>
+
+<li>DoCharge( string name, double amount ) - adjust the balance and list it as a withdraw
+in the base class
+</li>
+
+<li>MakePayment( double amount) - adjust the balance and list it as a DEPOSIT in the base
+class
+</li>
+
+<li>A constructor with no parameters and one with name, taxID and balance parameters</li>
+
+<li>display() - display the accounts charges ( name and amount ) and deposit record</li>
+
+</ul>
+
+<p>Note: all display() methods should use cout to output text to the console.</p>
+
+<h2>Write a main() Function</h2>
+
+<p>Write a main that creates 3 objects, starts each with a balance of $100. Create a
+loop that displays the following menu each time through the loop. Make sure the balance
+is updated each time AND you use the objects to perform the transactions.
+</p>
+<pre style="padding-left: 30px;">Checking balance: $100 Savings balance: $100 Credit Card balance: $100<br> 1. Savings Deposit<br> 2. Savings withdrawal<br> 3. Checking Deposit<br> 4. Write A Check<br> 5. Credit Card Payment<br> 6. Make A Charge<br> 7. Display Savings<br> 8. Display Checking<br> 9. Display Credit Card<br> 0. Exit</pre>
+
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
